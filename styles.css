@@ -4,6 +4,7 @@ body {
     margin: 0;
     font-size: 16px;
     box-sizing: border-box;
+    font-family: 'Comfortaa', cursive;
 }
 
 h1 {
@@ -28,12 +29,15 @@ h1 {
 }
 
 .tile {
-    background: lightblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(192, 214, 206);
     box-shadow: 0.3rem 0.3rem 0.4rem grey;
     cursor: pointer;
     text-align: center;
     padding: 0.5rem;
-    font-size: 100%;
+    font-size: 4rem;
 }
 
 .tile:hover {
