@@ -4,7 +4,7 @@ body {
     margin: 0;
     font-size: 16px;
     box-sizing: border-box;
-    font-family: 'Comfortaa', cursive;
+    font-family: 'Comfortaa', Arial;
 }
 
 h1 {
@@ -32,8 +32,8 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgb(192, 214, 206);
-    box-shadow: 0.3rem 0.3rem 0.4rem grey;
+    background: rgba(187, 255, 0, 0.692);
+    box-shadow: 0.3rem 0.3rem 0.4rem rgb(110, 109, 109);
     cursor: pointer;
     text-align: center;
     padding: 0.5rem;
@@ -55,9 +55,29 @@ h1 {
     display: inline-block;
 }
 
+a {
+    color: rgb(202, 98, 0);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 footer {
     margin: 2rem;
     grid-area: footer;
     padding: 1.5rem;
     text-align: center;
+}
+
+@media (orientation: portrait) {
+    .container {
+        width: 60vw;
+        height: 60vw;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+    }
 }
