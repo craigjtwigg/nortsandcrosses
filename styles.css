@@ -73,11 +73,19 @@ footer {
 
 @media (orientation: portrait) {
     .container {
-        width: 60vw;
-        height: 60vw;
+        width: 70vw;
+        height: 70vw;
     }
 
     h1 {
         font-size: 1.6rem;
+    }
+
+    .container {
+        gap: 0.6rem;
+    }
+
+    .tile {
+        font-size: 2.5rem;
     }
 }
