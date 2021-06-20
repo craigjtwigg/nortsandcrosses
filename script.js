@@ -8,6 +8,8 @@ const PlayerFactory = (name, mark) => {
 
   let playerArr = [];
 
+  let score = 0
+
   const playerName = () => {
     return name;
   };
@@ -20,18 +22,17 @@ const PlayerFactory = (name, mark) => {
     playerArr = [];
   };
 
+
   const getMark = () => {
     return mark;
   };
 
-  return { resetArr, arr, getMark, playerName };
-
+  return { resetArr, arr, getMark, playerName, score };
 };
 
 // GAME LOGIC FUNCTION //
 
 const gameLogic = (() => {
-
   const _playerX = PlayerFactory("Player X", "X");
 
   const _playerO = PlayerFactory("Player O", "O");
@@ -49,6 +50,10 @@ const gameLogic = (() => {
       ? (_currentPlayer = _playerO)
       : (_currentPlayer = _playerX);
   };
+
+  const scoreUp = () => {
+    _currentPlayer.score++
+  }
 
   // WINNING COMBINATIONS, EACH TO BE CHECKED AGAINST THE CURRENT PLAYERS ARRAY AT THE END OF EACH ROUND //
 
@@ -76,7 +81,10 @@ const gameLogic = (() => {
 
   const _declareWinner = () => {
     alert(`${currentPlayer().playerName()} WINS`);
+    scoreUp()
+    console.log(currentPlayer().score)
     _resetGame();
+    
   };
 
   const checkDraw = () => {
@@ -98,7 +106,6 @@ const gameLogic = (() => {
   };
 
   return { currentPlayer, getPlayer, checkWinner, checkDraw };
-
 })();
 
 // BOARD RELATED METHODS AND EVENTS WITHIN THIS FUNCTION //
@@ -131,5 +138,4 @@ const board = (() => {
   };
 
   return { resetBoard };
-
 })();
