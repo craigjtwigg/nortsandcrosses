@@ -8,7 +8,7 @@ const PlayerFactory = (name, mark) => {
 
   let playerArr = [];
 
-  let score = 0
+  let score = 0;
 
   const playerName = () => {
     return name;
@@ -21,7 +21,6 @@ const PlayerFactory = (name, mark) => {
   const resetArr = () => {
     playerArr = [];
   };
-
 
   const getMark = () => {
     return mark;
@@ -51,9 +50,24 @@ const gameLogic = (() => {
       : (_currentPlayer = _playerX);
   };
 
+  // KEEPING SCORE... //
+
+  const _displayScores = () => {
+    const _displayXScore = () => {
+      const _xScore = document.querySelector(".xScore");
+      return _xScore.textContent = `${_playerX.score}`;
+    };
+
+    const _displayOScore = () => {
+      const _oScore = document.querySelector(".oScore");
+      return _oScore.textContent = `${_playerO.score}`;
+    };
+    _displayXScore()
+    _displayOScore()
+  };
   const scoreUp = () => {
-    _currentPlayer.score++
-  }
+    _currentPlayer.score++;
+  };
 
   // WINNING COMBINATIONS, EACH TO BE CHECKED AGAINST THE CURRENT PLAYERS ARRAY AT THE END OF EACH ROUND //
 
@@ -81,10 +95,10 @@ const gameLogic = (() => {
 
   const _declareWinner = () => {
     alert(`${currentPlayer().playerName()} WINS`);
-    scoreUp()
-    console.log(currentPlayer().score)
+    scoreUp();
+    _displayScores();
+    console.log(`${currentPlayer().playerName()}: ${currentPlayer().score}`);
     _resetGame();
-    
   };
 
   const checkDraw = () => {
