@@ -55,7 +55,8 @@ const gameLogic = (() => {
       _xName.textContent = `${_playerX.name}`
       console.log(_playerX.name)
       _renameXpop.style.transform = "scale(0)";
-      popUpBlur.style.transform = "scale(0)" 
+      popUpBlur.style.transform = "scale(0)";
+      turnIndicator(); 
   })
 
   const _renameOtrigger = document.querySelector(".oName")
@@ -74,7 +75,8 @@ const gameLogic = (() => {
     _oName.textContent = `${_playerO.name}`
     console.log(_playerO.name)
     _renameOpop.style.transform = "scale(0)";
-    popUpBlur.style.transform = "scale(0)" 
+    popUpBlur.style.transform = "scale(0)";
+    turnIndicator(); 
 })
 
 
@@ -86,11 +88,17 @@ const gameLogic = (() => {
 
   // METHOD TO SWITCH FROM PLAYER X TO PLAYER O AFTER EACH ROUND //
 
+  const turnIndicator = () => {
+    const turnIndicatorDiv = document.querySelector(".turnindicator")
+    turnIndicatorDiv.textContent = "It\'s " +_currentPlayer.name+"\'s turn"
+  }
+
   const getPlayer = () => {
     return _currentPlayer === _playerX
       ? (_currentPlayer = _playerO)
       : (_currentPlayer = _playerX);
   };
+
 
   // KEEPING SCORE... //
 
@@ -135,8 +143,20 @@ const gameLogic = (() => {
     return result ? _declareWinner() : null;
   };
 
+  const _displayResult = () => {
+    const _resultButton = document.querySelector(".resultbutton");
+    const _resultPop = document.querySelector(".resultpop");
+    _resultPop.style.transform = "scale(1)"
+    _resultButton.addEventListener("click", () => {
+      _resultPop.style.transform = "scale(0)"
+    })
+  }
+
+  const _theResultIs = document.querySelector(".resultdiv");
+
   const _declareWinner = () => {
-    alert(`${currentPlayer().playerName()} WINS`);
+    _displayResult();
+    _theResultIs.textContent ="Congratulations " + `${_currentPlayer.name}` + ", you WIN!";
     _scoreUp();
     _displayScores();
     console.log(`${currentPlayer().playerName()}: ${currentPlayer().score}`);
@@ -150,7 +170,8 @@ const gameLogic = (() => {
   };
 
   const _declareDraw = () => {
-    alert("IT'S A DRAW!");
+    _displayResult();
+    _theResultIs.textContent ="It\'s a tie!";
     _resetGame();
   };
 
@@ -161,7 +182,7 @@ const gameLogic = (() => {
     getPlayer();
   };
 
-  return { currentPlayer, getPlayer, checkWinner, checkDraw };
+  return { turnIndicator, currentPlayer, getPlayer, checkWinner, checkDraw };
 })();
 
 // BOARD RELATED METHODS AND EVENTS WITHIN THIS FUNCTION //
@@ -184,6 +205,7 @@ const board = (() => {
         gameLogic.checkWinner();
         gameLogic.checkDraw();
         gameLogic.getPlayer();
+        gameLogic.turnIndicator();
       }
       return;
     })
