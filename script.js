@@ -46,12 +46,12 @@ const gameLogic = (() => {
       popUpBlur.style.transform = "scale(1)" 
     }
     )
-    const _renameXfield = document.querySelector(".renameXfield").value
+    
     const _renameXsubmit = document.querySelector(".renameXsubmit")
     const _xName = document.querySelector(".xName")
     _renameXsubmit.addEventListener("click", (e) => {
       e.preventDefault();
-      _playerX.name = _renameXfield
+      _playerX.name = document.querySelector(".renameXfield").value
       _xName.textContent = `${_playerX.name}`
       console.log(_playerX.name)
       _renameXpop.style.transform = "scale(0)";
@@ -65,14 +65,14 @@ const gameLogic = (() => {
     popUpBlur.style.transform = "scale(1)" 
   }
   )
-  const _renameOfield = document.querySelector(".renameOfield").value
+  
   const _renameOsubmit = document.querySelector(".renameOsubmit")
   const _oName = document.querySelector(".oName")
   _renameOsubmit.addEventListener("click", (e) => {
     e.preventDefault();
-    _playerO.name = _renameOfield
+    _playerO.name = document.querySelector(".renameOfield").value
     _oName.textContent = `${_playerO.name}`
-    console.log(_playerX.name)
+    console.log(_playerO.name)
     _renameOpop.style.transform = "scale(0)";
     popUpBlur.style.transform = "scale(0)" 
 })
