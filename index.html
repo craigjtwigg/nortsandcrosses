@@ -1,54 +1,73 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Noughts and Crosses!</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="styles.css">
-    </head>
-    <body>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Noughts and Crosses!</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>Noughts and Crosses!</h1>
+
+    <br />
+
+    <div class="container">
+      <div class="tile" id="1"></div>
+      <div class="tile" id="2"></div>
+      <div class="tile" id="3"></div>
+      <div class="tile" id="4"></div>
+      <div class="tile" id="5"></div>
+      <div class="tile" id="6"></div>
+      <div class="tile" id="7"></div>
+      <div class="tile" id="8"></div>
+      <div class="tile" id="9"></div>
+    </div>
+
+    <div class="scoreboard">
+      <div class="xScoreBoard">
+        <div class="xName">Player X</div>
+        <div class="xScore">0</div>
+      </div>
+
+      <div class="oScoreBoard">
+        <div class="oName">Player O</div>
+        <div class="oScore">0</div>
+      </div>
+    </div>
+
+    <div class="popblur"></div>
+
+    <div class="renamePop" id="renameXpop">
         
-        <h1>Noughts and Crosses!</h1>
+        <form class="renameXform">
+            <label for="renameXfield">Hello Player X, what is your name?</label><BR>
+            <input class="renameXfield" id ="renameXfield" name ="renameXfield" type="text" placeholder="Player X"><BR>
+            <button class ="renameXsubmit" id="renameXsubmit" type="submit">OK</button>
+        </form>
+    </div>
 
-        <br>
+    <div class="renamePop" id="renameOpop">
 
-        <div class="container">
+        <form class="renameOform">
+            <label for="renameOfield">Hello Player O, what is your name?</label><BR>
+            <input class="renameOfield" id ="renameOfield" name ="renameOfield" type="text" placeholder="Player O"><BR>
+            <button class ="renameOsubmit" id="renameOsubmit" type="submit">OK</button>
+        </form>
 
-            <div class="tile" id="1"></div>
-            <div class="tile" id="2"></div>
-            <div class="tile" id="3"></div>
-            <div class="tile" id="4"></div>
-            <div class="tile" id="5"></div>
-            <div class="tile" id="6"></div>
-            <div class="tile" id="7"></div>
-            <div class="tile" id="8"></div>
-            <div class="tile" id="9"></div>
+    </div>
 
-        </div>
-
-        <div class="scoreboard">
-
-        <div class="xScoreBoard">
-            <div class="xName">Player X</div>
-            <div class="xScore">0</div>
-        </div>
-
-        <div class="oScoreBoard">
-            <div class="oName">Player O</div>
-            <div class="oScore">0</div>
-        </div>
-
-        </div>
-
-        <footer>
-            <a href="https://github.com/craigjtwigg">
-                <img class="avi" alt= "Craig J Twigg's avatar" src="cjtpixel.png">
-            </a>
-            <p class= "created">Created by <a href="https://github.com/craigjtwigg">Craig J Twigg</a> as part of the Odin Project. 2021.</p>
+    <footer>
+      <a href="https://github.com/craigjtwigg">
+        <img class="avi" alt="Craig J Twigg's avatar" src="cjtpixel.png" />
+      </a>
+      <p class="created">
+        Created by <a href="https://github.com/craigjtwigg">Craig J Twigg</a> as
+        part of the Odin Project. 2021.
+      </p>
     </footer>
-        
-        <script src="script.js" async defer></script>
-    </body>
+
+    <script src="script.js" async defer></script>
+  </body>
 </html>

@@ -26,7 +26,7 @@ const PlayerFactory = (name, mark) => {
     return mark;
   };
 
-  return { resetArr, arr, getMark, playerName, score };
+  return { resetArr, arr, getMark, playerName, score, name };
 };
 
 // GAME LOGIC FUNCTION //
@@ -35,6 +35,48 @@ const gameLogic = (() => {
   const _playerX = PlayerFactory("Player X", "X");
 
   const _playerO = PlayerFactory("Player O", "O");
+
+  console.log(_playerX.name)
+
+    const popUpBlur = document.querySelector(".popblur")
+    const _renameXtrigger = document.querySelector(".xName")
+    const _renameXpop = document.querySelector("#renameXpop")
+    _renameXtrigger.addEventListener("click", () => {
+      _renameXpop.style.transform = "scale(1)";
+      popUpBlur.style.transform = "scale(1)" 
+    }
+    )
+    const _renameXfield = document.querySelector(".renameXfield").value
+    const _renameXsubmit = document.querySelector(".renameXsubmit")
+    const _xName = document.querySelector(".xName")
+    _renameXsubmit.addEventListener("click", (e) => {
+      e.preventDefault();
+      _playerX.name = _renameXfield
+      _xName.textContent = `${_playerX.name}`
+      console.log(_playerX.name)
+      _renameXpop.style.transform = "scale(0)";
+      popUpBlur.style.transform = "scale(0)" 
+  })
+
+  const _renameOtrigger = document.querySelector(".oName")
+  const _renameOpop = document.querySelector("#renameOpop")
+  _renameOtrigger.addEventListener("click", () => {
+    _renameOpop.style.transform = "scale(1)";
+    popUpBlur.style.transform = "scale(1)" 
+  }
+  )
+  const _renameOfield = document.querySelector(".renameOfield").value
+  const _renameOsubmit = document.querySelector(".renameOsubmit")
+  const _oName = document.querySelector(".oName")
+  _renameOsubmit.addEventListener("click", (e) => {
+    e.preventDefault();
+    _playerO.name = _renameOfield
+    _oName.textContent = `${_playerO.name}`
+    console.log(_playerX.name)
+    _renameOpop.style.transform = "scale(0)";
+    popUpBlur.style.transform = "scale(0)" 
+})
+
 
   let _currentPlayer = _playerX;
 
@@ -65,7 +107,7 @@ const gameLogic = (() => {
     _displayXScore()
     _displayOScore()
   };
-  const scoreUp = () => {
+  const _scoreUp = () => {
     _currentPlayer.score++;
   };
 
@@ -95,7 +137,7 @@ const gameLogic = (() => {
 
   const _declareWinner = () => {
     alert(`${currentPlayer().playerName()} WINS`);
-    scoreUp();
+    _scoreUp();
     _displayScores();
     console.log(`${currentPlayer().playerName()}: ${currentPlayer().score}`);
     _resetGame();
