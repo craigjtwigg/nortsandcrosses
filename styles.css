@@ -14,7 +14,37 @@ h1 {
     margin-right: auto;
 }
 
+.welcome {
+    position: fixed;
+    display: grid;
+    grid-template-areas: 
+                         "result"
+                         "human" "bot"
+                         ;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.938);
+    color:  rgb(187, 255, 0);
+    transform: scale(1);
+    justify-content: center;
+    align-content: center;
+}
 
+.welcomeMessage {
+    grid-area: result;
+    text-align: center;
+}
+
+.humanButton {
+    grid-area: human;
+}
+
+.botButton{
+    grid-area: bot;
+}
 
 
 .container {

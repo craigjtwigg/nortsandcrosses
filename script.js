@@ -3,8 +3,6 @@
 // FACTORY FUNCTION TO PRODUCE THE PLAYER OBJECTS //
 
 const PlayerFactory = (name, mark) => {
-  /* THE ID OF EACH TILE THE CHECKED WILL BE PUSHED TO THE CURRENT PLAYERS ARRAY. 
-  IT WILL BE TESTED AGAINST WINNING EACH COMBO TO CHECK FOR A WINNER */
 
   let playerArr = [];
 
@@ -32,11 +30,41 @@ const PlayerFactory = (name, mark) => {
 // GAME LOGIC FUNCTION //
 
 const gameLogic = (() => {
+
+  // DEFINING PLAYERS //
+
   const _playerX = PlayerFactory("Player X", "X");
 
   const _playerO = PlayerFactory("Player O", "O");
 
-  console.log(_playerX.name)
+  let _currentPlayer = _playerX;
+
+  const currentPlayer = () => {
+    return _currentPlayer;
+  };
+
+
+  // MODE SELECTION - 2 PLAYER OR vs. O-BOT //
+
+  const humanMode = () => {
+    welcomePop.style.transform = "scale(0)"
+  }
+
+  const oBotMode = () => {
+    welcomePop.style.transform = "scale(0)"
+    _playerO.name = "O-Bot"
+    _oName.textContent = "O-Bot"
+    console.log(_playerO.name)
+  }
+
+  const welcomePop = document.querySelector(".welcome")
+  const humanButton = document.querySelector(".humanButton")
+  const oBotButton = document.querySelector(".botButton")
+  humanButton.addEventListener("click", humanMode)
+  oBotButton.addEventListener("click", oBotMode)
+
+
+  // RENAMING PLAYERS //
 
     const popUpBlur = document.querySelector(".popblur")
     const _renameXtrigger = document.querySelector(".xName")
@@ -79,12 +107,79 @@ const gameLogic = (() => {
     turnIndicator(); 
 })
 
+  // AVAIALABLE MOVES //
 
-  let _currentPlayer = _playerX;
+  let availableTiles = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
-  const currentPlayer = () => {
-    return _currentPlayer;
-  };
+  // O-BOT LOGIC //
+
+  // SELECTING A RANDOM TILE //
+
+  
+
+  const randomTileSelector = () => {
+    const _randomTileIndex = Math.floor(Math.random() * availableTiles.length)
+    const randomTile = availableTiles[_randomTileIndex]
+    return document.getElementById(randomTile)
+  }
+
+  //let randomSelectedTile = document.getElementById(randomTileSelector())
+
+  const centralTile = document.getElementById("5") 
+
+  const oBotMove = (tile) => {
+    if (tile.textContent === ""){ 
+    tile.textContent = "O"
+    _playerO.arr().push(tile.id)
+    board.updateBoard(tile.id)
+   _currentPlayer = _playerX
+    }
+    else {
+      getPlayer()
+      checkForBot()
+  }
+  getPlayer()
+  checkWinner()
+  checkDraw()
+  getPlayer()
+}
+
+  const oBotFirstMove = () => {
+   _playerX.arr().includes("5") ? oBotMove(randomTileSelector()) : oBotMove(centralTile)
+  }
+
+  const checkForHumanWinner = (combo) => {
+    let notInX = _playerX.arr().filter((x) => x !== combo)
+    notInX.length === 1 ? oBotMove(notInX[0]) : null
+  }
+
+  const dontLose = () => {
+    checkForHumanWinner(_top)
+    checkForHumanWinner(_midH)
+    checkForHumanWinner(_bottom)
+    checkForHumanWinner(_left)
+    checkForHumanWinner(_midV)
+    checkForHumanWinner(_right)
+    checkForHumanWinner(_upDiag)
+    checkForHumanWinner(_downDiag)
+  }
+
+  const _oBotPlay = () => { 
+    getPlayer()
+    if (_playerO.arr().length === 0) { 
+      oBotFirstMove()
+    }
+    
+    else {
+     oBotMove(randomTileSelector())
+     //dontLose();
+      console.log("else")
+    }
+    console.log("hello")
+    // CREATE FUNCTION TO CHECK FOR WINNING MOVE AND CALL IT HERE //
+    // CREATE FUNCTION TO CHECK FOR HUMAN POTENTIAL WINNING MOVE AND CALL IT HERE //
+  }
+  
 
   // METHOD TO SWITCH FROM PLAYER X TO PLAYER O AFTER EACH ROUND //
 
@@ -99,8 +194,13 @@ const gameLogic = (() => {
       : (_currentPlayer = _playerX);
   };
 
+  const checkForBot = () => {
+    _currentPlayer.name === "O-Bot" ? _oBotPlay() : null
+  }
 
   // KEEPING SCORE... //
+
+  
 
   const _displayScores = () => {
     const _displayXScore = () => {
@@ -119,7 +219,9 @@ const gameLogic = (() => {
     _currentPlayer.score++;
   };
 
-  // WINNING COMBINATIONS, EACH TO BE CHECKED AGAINST THE CURRENT PLAYERS ARRAY AT THE END OF EACH ROUND //
+  // GETTING THE RESULT.... //
+
+  // WINNING COMBINATIONS //
 
   const _top = ["1", "2", "3"];
   const _midH = ["4", "5", "6"];
@@ -130,18 +232,32 @@ const gameLogic = (() => {
   const _upDiag = ["7", "5", "3"];
   const _downDiag = ["1", "5", "9"];
 
-  const checkWinner = () => {
+  // CHECKING FOR END GAME  //
+
+  const _checkWinner = (winningCombo) => {
     let result =
-      _midH.every((combo) => _currentPlayer.arr().includes(combo)) ||
-      _top.every((combo) => _currentPlayer.arr().includes(combo)) ||
-      _bottom.every((combo) => _currentPlayer.arr().includes(combo)) ||
-      _left.every((combo) => _currentPlayer.arr().includes(combo)) ||
-      _midV.every((combo) => _currentPlayer.arr().includes(combo)) ||
-      _right.every((combo) => _currentPlayer.arr().includes(combo)) ||
-      _upDiag.every((combo) => _currentPlayer.arr().includes(combo)) ||
-      _downDiag.every((combo) => _currentPlayer.arr().includes(combo));
+      winningCombo.every((combo) => _currentPlayer.arr().includes(combo))
     return result ? _declareWinner() : null;
   };
+
+  const checkWinner = () => {
+    _checkWinner(_midH)
+    _checkWinner(_top)
+    _checkWinner(_bottom)
+    _checkWinner(_left)
+    _checkWinner(_midV)
+    _checkWinner(_right)
+    _checkWinner(_upDiag)
+    _checkWinner(_downDiag)
+  }
+
+  const checkDraw = () => {
+    _playerO.arr().length == 5 || _playerX.arr().length == 5
+      ? _declareDraw()
+      : null;
+  };
+
+  // RESULT DECLARATIONS // 
 
   const _displayResult = () => {
     const _resultButton = document.querySelector(".resultbutton");
@@ -163,31 +279,37 @@ const gameLogic = (() => {
     _resetGame();
   };
 
-  const checkDraw = () => {
-    _playerO.arr().length == 5 || _playerX.arr().length == 5
-      ? _declareDraw()
-      : null;
-  };
-
   const _declareDraw = () => {
     _displayResult();
     _theResultIs.textContent ="It\'s a tie!";
     _resetGame();
   };
 
+  // GAME RESET //
+
   const _resetGame = () => {
     board.resetBoard();
     _playerX.resetArr();
     _playerO.resetArr();
-    getPlayer();
+    _currentPlayer = _playerO
   };
 
-  return { turnIndicator, currentPlayer, getPlayer, checkWinner, checkDraw };
+  return { turnIndicator, currentPlayer, getPlayer, checkWinner, checkDraw, checkForBot, randomTileSelector, availableTiles, _playerO};
 })();
 
 // BOARD RELATED METHODS AND EVENTS WITHIN THIS FUNCTION //
 
+
+
 const board = (() => {
+  
+
+
+  const updateBoard = (tile) => {
+    const makeTileUnavailable = gameLogic.availableTiles.filter((available) => available !== tile)
+    gameLogic.availableTiles = makeTileUnavailable
+  }
+
   const _currentPlayerArr = () => {
     return gameLogic.currentPlayer().arr();
   };
@@ -202,10 +324,14 @@ const board = (() => {
       if (e.target.textContent !== "X" && e.target.textContent !== "O") {
         e.target.textContent = _currentPlayerMark();
         _currentPlayerArr().push(`${e.target.id}`);
+        updateBoard(`${e.target.id}`)
         gameLogic.checkWinner();
         gameLogic.checkDraw();
         gameLogic.getPlayer();
         gameLogic.turnIndicator();
+        gameLogic.randomTileSelector()
+        gameLogic.checkForBot();
+        console.log(gameLogic.availableTiles)
       }
       return;
     })
@@ -215,5 +341,5 @@ const board = (() => {
     tiles.forEach((tile) => (tile.textContent = ""));
   };
 
-  return { resetBoard };
+  return { resetBoard, updateBoard };
 })();
