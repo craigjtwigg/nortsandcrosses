@@ -86,7 +86,7 @@ const gameLogic = (() => {
   const _xName = document.querySelector(".xName");
   _renameXsubmit.addEventListener("click", (e) => {
     e.preventDefault();
-    _playerX.name = document.querySelector(".renameXfield").value;
+    document.querySelector(".renameXfield").value == "" ? _playerX.name = "Player X" : _playerX.name = document.querySelector(".renameXfield").value;
     _xName.textContent = `${_playerX.name}`;
     console.log(_playerX.name);
     _renameXpop.style.transform = "scale(0)";
@@ -97,15 +97,20 @@ const gameLogic = (() => {
   const _renameOtrigger = document.querySelector(".oName");
   const _renameOpop = document.querySelector("#renameOpop");
   _renameOtrigger.addEventListener("click", () => {
+    if (_playerO.name == "O-Bot") {
+      null
+    }
+    else {
     _renameOpop.style.transform = "scale(1)";
     popUpBlur.style.transform = "scale(1)";
+    }
   });
 
   const _renameOsubmit = document.querySelector(".renameOsubmit");
   const _oName = document.querySelector(".oName");
   _renameOsubmit.addEventListener("click", (e) => {
     e.preventDefault();
-    _playerO.name = document.querySelector(".renameOfield").value;
+    document.querySelector(".renameOfield").value == "" ? _playerO.name = "Player O" :_playerO.name = document.querySelector(".renameOfield").value;
     _oName.textContent = `${_playerO.name}`;
     console.log(_playerO.name);
     _renameOpop.style.transform = "scale(0)";
@@ -367,6 +372,8 @@ const board = (() => {
 
   return { resetBoard, updateBoard, gameBoard, tiles };
 })();
+
+// GAME PLAY FUNCTION // 
 
 const playRound = (() => {
   board.tiles.forEach((tile) =>
