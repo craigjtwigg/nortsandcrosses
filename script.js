@@ -163,11 +163,15 @@ const gameLogic = (() => {
     console.log(combo);
     console.log("X: " + _playerX.arr());
     console.log("O: " + _playerO.arr());
+    if (_playerO.arr().length === _playerX.arr().length){
+      return;
+    }
     if (notInArr.length === 1) {
       getPlayer();
       notInArr = document.getElementById(notInArr.toString());
       oBotMove(notInArr);
     }
+    
     null;
   };
 
@@ -312,7 +316,7 @@ const gameLogic = (() => {
 
   const _declareWinner = () => {
     _displayResult();
-    _playerO.name == "O-Bot"
+    _currentPlayer.name == "O-Bot"
       ? (_theResultIs.textContent = "Oh no, O-Bot beat you. Maybe Next time...")
       : (_theResultIs.textContent =
           "Congratulations " + `${_currentPlayer.name}` + ", you WIN!");
