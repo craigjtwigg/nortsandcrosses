@@ -39,6 +39,9 @@ const gameLogic = (() => {
 
   const _playerO = PlayerFactory("Player O", "O");
 
+  let playerX = _playerX
+  let playerO = _playerO
+
   let _currentPlayer = _playerX;
 
   const currentPlayer = () => {
@@ -53,70 +56,7 @@ const gameLogic = (() => {
     return _currentPlayer.getMark();
   };
 
-  // MODE SELECTION - 2 PLAYER OR vs. O-BOT //
-
-  const humanMode = () => {
-    welcomePop.style.transform = "scale(0)";
-  };
-
-  const oBotMode = () => {
-    welcomePop.style.transform = "scale(0)";
-    _playerO.name = "O-Bot";
-    _oName.textContent = "O-Bot";
-    console.log(_playerO.name);
-  };
-
-  const welcomePop = document.querySelector(".welcome");
-  const humanButton = document.querySelector(".humanButton");
-  const oBotButton = document.querySelector(".botButton");
-  humanButton.addEventListener("click", humanMode);
-  oBotButton.addEventListener("click", oBotMode);
-
-  // RENAMING PLAYERS //
-
-  const popUpBlur = document.querySelector(".popblur");
-  const _renameXtrigger = document.querySelector(".xName");
-  const _renameXpop = document.querySelector("#renameXpop");
-  _renameXtrigger.addEventListener("click", () => {
-    _renameXpop.style.transform = "scale(1)";
-    popUpBlur.style.transform = "scale(1)";
-  });
-
-  const _renameXsubmit = document.querySelector(".renameXsubmit");
-  const _xName = document.querySelector(".xName");
-  _renameXsubmit.addEventListener("click", (e) => {
-    e.preventDefault();
-    document.querySelector(".renameXfield").value == "" ? _playerX.name = "Player X" : _playerX.name = document.querySelector(".renameXfield").value;
-    _xName.textContent = `${_playerX.name}`;
-    console.log(_playerX.name);
-    _renameXpop.style.transform = "scale(0)";
-    popUpBlur.style.transform = "scale(0)";
-    turnIndicator();
-  });
-
-  const _renameOtrigger = document.querySelector(".oName");
-  const _renameOpop = document.querySelector("#renameOpop");
-  _renameOtrigger.addEventListener("click", () => {
-    if (_playerO.name == "O-Bot") {
-      null
-    }
-    else {
-    _renameOpop.style.transform = "scale(1)";
-    popUpBlur.style.transform = "scale(1)";
-    }
-  });
-
-  const _renameOsubmit = document.querySelector(".renameOsubmit");
-  const _oName = document.querySelector(".oName");
-  _renameOsubmit.addEventListener("click", (e) => {
-    e.preventDefault();
-    document.querySelector(".renameOfield").value == "" ? _playerO.name = "Player O" :_playerO.name = document.querySelector(".renameOfield").value;
-    _oName.textContent = `${_playerO.name}`;
-    console.log(_playerO.name);
-    _renameOpop.style.transform = "scale(0)";
-    popUpBlur.style.transform = "scale(0)";
-    turnIndicator();
-  });
+  
 
   // AI //
 
@@ -244,7 +184,7 @@ const gameLogic = (() => {
 
   // KEEPING SCORE... //
 
-  const _displayScores = () => {
+  const displayScores = () => {
     const _displayXScore = () => {
       const _xScore = document.querySelector(".xScore");
       return (_xScore.textContent = `${_playerX.score}`);
@@ -321,25 +261,27 @@ const gameLogic = (() => {
       : (_theResultIs.textContent =
           "Congratulations " + `${_currentPlayer.name}` + ", you WIN!");
     _scoreUp();
-    _displayScores();
+    displayScores();
     console.log(`${currentPlayer().playerName()}: ${currentPlayer().score}`);
-    _resetGame();
+    resetGame();
   };
 
   const _declareDraw = () => {
     _displayResult();
     _theResultIs.textContent = "It's a tie!";
-    _resetGame();
+    resetGame();
   };
 
   // GAME RESET //
 
-  const _resetGame = () => {
+  const resetGame = () => {
     board.resetBoard();
     _playerX.resetArr();
     _playerO.resetArr();
     _currentPlayer = _playerO;
   };
+
+  
 
   return {
     turnIndicator,
@@ -350,7 +292,11 @@ const gameLogic = (() => {
     checkForBot,
     randomTileSelector,
     currentPlayerArr,
-    currentPlayerMark
+    currentPlayerMark,
+    displayScores,
+    resetGame,
+    playerO,
+    playerX,
   };
 })();
 
@@ -373,6 +319,8 @@ const board = (() => {
   const resetBoard = () => {
     tiles.forEach((tile) => (tile.textContent = ""));
   };
+
+
 
   return { resetBoard, updateBoard, gameBoard, tiles };
 })();
@@ -397,4 +345,115 @@ const playRound = (() => {
       return;
     })
   );
+})()
+
+const settings = (() => {
+
+  // OPTIONS / SETTINGS //
+  const playerO = gameLogic.playerO
+  const playerX = gameLogic.playerX
+  const resetPop = document.querySelector(".resetPop")
+  const backButton = document.querySelector(".backButton")
+  const resetButton = document.querySelector(".resetGameAndScoresButton")
+  const switchModeButton = document.querySelector(".switchModeButton")
+  const settingsIcon = document.querySelector(".settingsIcon")
+
+  settingsIcon.addEventListener("click", () => {
+    resetPop.style.transform = "scale(1)"
+  })
+
+  backButton.addEventListener("click", () => {
+    resetPop.style.transform = "scale(0)"
+  })
+  
+  resetButton.addEventListener("click", () => {
+    gameLogic.resetGame()
+    resetPop.style.transform = "scale(0)"
+    playerO.score = 0
+    playerX.score = 0
+    gameLogic.displayScores()
+  })
+
+  switchModeButton.addEventListener("click", () => {
+    resetPop.style.transform = "scale(0)"
+    welcomePop.style.transform = "scale(1)"
+  })
+
+  // MODE SELECTION - 2 PLAYER OR vs. O-BOT //
+
+  const humanMode = () => {
+    welcomePop.style.transform = "scale(0)";
+    playerO.name = "Player O";
+    _oName.textContent = "Player O"
+    playerO.score = 0
+    playerX.score = 0
+    gameLogic.resetGame()
+    gameLogic.getPlayer()
+    gameLogic.displayScores()
+  };
+
+  const oBotMode = () => {
+    welcomePop.style.transform = "scale(0)";
+    playerO.name = "O-Bot";
+    _oName.textContent = "O-Bot";
+    console.log(playerO.name);
+    gameLogic.resetGame()
+    gameLogic.getPlayer()
+    playerO.score = 0
+    playerX.score = 0
+    gameLogic.displayScores()
+  };
+
+  const welcomePop = document.querySelector(".welcome");
+  const humanButton = document.querySelector(".humanButton");
+  const oBotButton = document.querySelector(".botButton");
+  humanButton.addEventListener("click", humanMode);
+  oBotButton.addEventListener("click", oBotMode);
+
+  // RENAMING PLAYERS //
+
+  const popUpBlur = document.querySelector(".popblur");
+  const _renameXtrigger = document.querySelector(".xName");
+  const _renameXpop = document.querySelector("#renameXpop");
+  _renameXtrigger.addEventListener("click", () => {
+    _renameXpop.style.transform = "scale(1)";
+    popUpBlur.style.transform = "scale(1)";
+  });
+
+  const _renameXsubmit = document.querySelector(".renameXsubmit");
+  const _xName = document.querySelector(".xName");
+  _renameXsubmit.addEventListener("click", (e) => {
+    e.preventDefault();
+    document.querySelector(".renameXfield").value == "" ? playerX.name = "Player X" : playerX.name = document.querySelector(".renameXfield").value;
+    _xName.textContent = `${playerX.name}`;
+    console.log(playerX.name);
+    _renameXpop.style.transform = "scale(0)";
+    popUpBlur.style.transform = "scale(0)";
+    gameLogic.turnIndicator();
+  });
+
+  const _renameOtrigger = document.querySelector(".oName");
+  const _renameOpop = document.querySelector("#renameOpop");
+  _renameOtrigger.addEventListener("click", () => {
+    if (playerO.name == "O-Bot") {
+      null
+    }
+    else {
+    _renameOpop.style.transform = "scale(1)";
+    popUpBlur.style.transform = "scale(1)";
+    }
+  });
+
+  const _renameOsubmit = document.querySelector(".renameOsubmit");
+  const _oName = document.querySelector(".oName");
+  _renameOsubmit.addEventListener("click", (e) => {
+    e.preventDefault();
+    document.querySelector(".renameOfield").value == "" ? playerO.name = "Player O" :playerO.name = document.querySelector(".renameOfield").value;
+    _oName.textContent = `${playerO.name}`;
+    console.log(playerO.name);
+    _renameOpop.style.transform = "scale(0)";
+    popUpBlur.style.transform = "scale(0)";
+    gameLogic.turnIndicator();
+  });
+
 })()
